@@ -1,5 +1,5 @@
 const crypto = require("crypto");
-const { ValidationError } = require("apollo-server");
+const { ValidationError } = require("apollo-server-express");
 
 const db = require('../database');
 const { baseUrl } = require('../config');
@@ -19,13 +19,11 @@ class UrlService {
 
         if(!UrlService.isUrl(url)) {
             throw new ValidationError("That is not a valid URL.");
-        }
-        url = url.toLowerCase();        
+        }      
         let [ exists ] = await db('url').where({ url });
 
-        if(exists) {
-            identifier = exists.id;
-        } else {
+        if(exists) identifier = exists.id;
+        else {
             identifier = crypto.randomBytes(3).toString("hex");
             var [ shortUrl ] = await db('url').insert(
                 { id: identifier, url },

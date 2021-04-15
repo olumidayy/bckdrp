@@ -1,9 +1,10 @@
+require("dotenv").config({ path: '../../.env' });
 const { connectionString } = require("../config");
 
 module.exports = {
 
   development: {
-    client: 'postgresql',
+    client: 'pg',
     connection: {
       host : '127.0.0.1',
       user : 'postgres',
@@ -20,8 +21,11 @@ module.exports = {
   },
 
   production: {
-    client: 'postgresql',
-    connection: connectionString,
+    client: 'pg',
+    connection: {
+      connectionString,
+      ssl: { rejectUnauthorized: false }
+    },
     pool: {
       min: 2,
       max: 10
