@@ -18,7 +18,7 @@ class UrlService {
         let identifier;
 
         if(!UrlService.isUrl(url)) {
-            let err = ValidationError("That is not a valid URL.");
+            let err = new ValidationError("That is not a valid URL.");
             err.status = 400;
             throw err;
         }      
