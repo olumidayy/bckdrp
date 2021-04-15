@@ -1,0 +1,32 @@
+{
+  "name": "backdrop_task",
+  "version": "1.0.0",
+  "description": "Backdrop Coding Challenge Solution.",
+  "main": "server.js",
+  "scripts": {
+    "test": "test",
+    "migrate": "npx knex migrate:latest --knexfile src/database/knexfile",
+    "migrate-prod": "npx knex migrate:latest --knexfile src/database/knexfile --env=production",
+    "start": "npm run migrate-prod && node src/server.js",
+    "dev": "nodemon src/server.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/olumidayy/bckdrp.git"
+  },
+  "author": "Olumide I. Nwosu",
+  "license": "ISC",
+  "dependencies": {
+    "apollo-server": "^2.22.2",
+    "apollo-server-express": "^2.23.0",
+    "cors": "^2.8.5",
+    "dotenv": "^8.2.0",
+    "express": "^4.17.1",
+    "graphql": "^15.5.0",
+    "knex": "^0.95.4",
+    "pg": "^8.5.1"
+  },
+  "devDependencies": {
+    "nodemon": "^2.0.7"
+  }
+}
