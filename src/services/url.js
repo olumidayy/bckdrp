@@ -18,7 +18,9 @@ class UrlService {
         let identifier;
 
         if(!UrlService.isUrl(url)) {
-            throw new ValidationError("That is not a valid URL.");
+            let err = ValidationError("That is not a valid URL.");
+            err.status = 400;
+            throw err;
         }      
         let [ exists ] = await db('url').where({ url });
 
@@ -39,7 +41,9 @@ class UrlService {
     static async fetchUrl(id) {
         let [ url ] = await db('url').where({ id }, ['url']);
         if(!url) {
-            throw new ValidationError("That is not a valid identifier.");
+            let err = new ValidationError("That is not a valid identifier.");
+            err.status = 400;
+            throw err;
         }
         return url.url;
     }
