@@ -1,5 +1,5 @@
 require("dotenv").config({ path: '../../.env' });
-const { connectionString } = require("../config");
+const { connectionString, env } = require("../config");
 
 module.exports = {
 
@@ -8,7 +8,24 @@ module.exports = {
     connection: {
       host : '127.0.0.1',
       user : 'postgres',
-      password : '',
+      password : 'olumide',
+      database : 'postgres'
+    },
+    pool: {
+      min: 2,
+      max: 10
+    },
+    migrations: {
+      tableName: 'knex_migrations'
+    }
+  },
+
+  test: {
+    client: 'pg',
+    connection: {
+      host : '127.0.0.1',
+      user : 'postgres',
+      password : 'olumide',
       database : 'postgres'
     },
     pool: {
@@ -34,5 +51,4 @@ module.exports = {
       tableName: 'knex_migrations'
     }
   }
-
-};
+}[env];

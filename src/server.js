@@ -27,5 +27,5 @@ async function startServer() {
     `,);
     return { app };
 }
-
+console.log(require('./config').env)
 startServer();

@@ -1,7 +1,7 @@
 const crypto = require("crypto");
 const { ValidationError } = require("apollo-server-express");
 
-const db = require('../database');
+const { db } = require('../database');
 const { baseUrl } = require('../config');
 
 class UrlService {

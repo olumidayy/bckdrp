@@ -4,7 +4,7 @@
   "description": "Backdrop Coding Challenge Solution.",
   "main": "server.js",
   "scripts": {
-    "test": "test",
+    "test": "jest",
     "migrate": "npx knex migrate:latest --knexfile src/database/knexfile",
     "migrate-prod": "npx knex migrate:latest --knexfile src/database/knexfile --env=production",
     "start": "node src/server.js",
@@ -18,10 +18,12 @@
   "license": "ISC",
   "dependencies": {
     "apollo-server-express": "^2.23.0",
+    "apollo-server-testing": "^2.23.0",
     "cors": "^2.8.5",
     "dotenv": "^8.2.0",
     "express": "^4.17.1",
     "graphql": "^15.5.0",
+    "jest": "^26.6.3",
     "knex": "^0.95.4",
     "pg": "^8.5.1"
   },

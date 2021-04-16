@@ -1,7 +1,13 @@
 const knex = require("knex");
-const { env } = require("../config");
-const variables = require('./knexfile');
+const config = require('./knexfile');
 
-let db = knex(variables[env]);
+let db = knex(config);
 
-module.exports = db;
+async function destroyClient() {
+  await db.destroy();
+}
+
+module.exports = {
+  db,
+  destroyClient
+};
