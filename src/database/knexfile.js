@@ -1,12 +1,8 @@
 require("dotenv").config({ path: '../../.env' });
 const { connectionString, env } = require("../config");
+const parse = require("pg-connection-string");
+let localConnectionVars = parse(connectionString);
 
-let localConnectionVars = {
-  host : '127.0.0.1',
-  user : 'postgres',
-  password : '',
-  database : 'postgres'
-};
 
 module.exports = {
 

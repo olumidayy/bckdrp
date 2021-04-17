@@ -1,6 +1,6 @@
 
 exports.up = function(knex) {
-    return knex.schema.createTable('url', function (table) {
+    return knex.schema.createTable('urls', function (table) {
 		table.string('id');
 		table.string('url');
 		table.timestamp('created_at').defaultTo(knex.fn.now());
@@ -8,5 +8,5 @@ exports.up = function(knex) {
 };
 
 exports.down = function(knex) {
-    return knex.schema.dropTable('url');
+    return knex.schema.dropTable('urls');
 };

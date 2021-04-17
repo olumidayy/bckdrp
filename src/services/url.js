@@ -22,11 +22,11 @@ class UrlService {
             err.status = 400;
             throw err;
         }      
-        let [ exists ] = await db('url').where({ url });
+        let [ exists ] = await db('urls').where({ url });
         if(exists) identifier = exists.id;
         else {
             identifier = crypto.randomBytes(3).toString("hex");
-            var [ shortUrl ] = await db('url').insert(
+            var [ shortUrl ] = await db('urls').insert(
                 { id: identifier, url }, ['id']
             );
             identifier = shortUrl.id;
@@ -38,7 +38,7 @@ class UrlService {
         let err = new ValidationError("That is not a valid identifier.");
         err.status = 400;
         if(id.length > 6) throw err;
-        let [ url ] = await db('url').where({ id }, ['url']);
+        let [ url ] = await db('urls').where({ id }, ['url']);
         if(!url) throw err;
         return url.url;
     }
