@@ -23,28 +23,23 @@ class UrlService {
             throw err;
         }      
         let [ exists ] = await db('url').where({ url });
-
         if(exists) identifier = exists.id;
         else {
             identifier = crypto.randomBytes(3).toString("hex");
             var [ shortUrl ] = await db('url').insert(
-                { id: identifier, url },
-                ['id', 'url']
+                { id: identifier, url }, ['id']
             );
             identifier = shortUrl.id;
         }
-        return {
-            url: `${baseUrl}/${identifier}`
-        };
+        return { url: `${baseUrl}/${identifier}` };
     }
 
     static async fetchUrl(id) {
+        let err = new ValidationError("That is not a valid identifier.");
+        err.status = 400;
+        if(id.length > 6) throw err;
         let [ url ] = await db('url').where({ id }, ['url']);
-        if(!url) {
-            let err = new ValidationError("That is not a valid identifier.");
-            err.status = 400;
-            throw err;
-        }
+        if(!url) throw err;
         return url.url;
     }
 }

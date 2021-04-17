@@ -32,23 +32,25 @@ describe("GraphQL Queries", () => {
 
     it("returns an error for an invalid URL", async () => {
         /**
-         * This test checks to see that the query infacts shortens
-         * the URL and gives us the shortened version.
+         * This test checks to see that the query fails for
+         * an invalid url.
          */
 
-        let url = "https/jestjs.io/docs/environment-variables";
+        let url = "https/jestjs.io/docs/environment-variables"; //An invalid URL.
         const res = await sendQuery({
             query: SHORTEN_URL,
             variables: { url }
         });
-        expect(res.errors).toBeTruthy();
+        //Expect errors to be present, and data not to be.
+        expect(res.errors).toBeTruthy(); 
         expect(res.data.shortenUrl).toBeFalsy();
     });
 
     it("returns the same identifier for two same URLs", async () => {
         /**
-         * This test checks to see that the query infacts shortens
-         * the URL and gives us the shortened version.
+         * This test checks to see that the query returns the
+         * same shortened links for two same URLs. This helps
+         * to save memory and prevent having duplicates.
          */
 
         let url =

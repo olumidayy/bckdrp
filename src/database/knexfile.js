@@ -1,16 +1,18 @@
 require("dotenv").config({ path: '../../.env' });
 const { connectionString, env } = require("../config");
 
+let localConnectionVars = {
+  host : '127.0.0.1',
+  user : 'postgres',
+  password : '',
+  database : 'postgres'
+};
+
 module.exports = {
 
   development: {
     client: 'pg',
-    connection: {
-      host : '127.0.0.1',
-      user : 'postgres',
-      password : 'olumide',
-      database : 'postgres'
-    },
+    connection: localConnectionVars,
     pool: {
       min: 2,
       max: 10
@@ -22,12 +24,7 @@ module.exports = {
 
   test: {
     client: 'pg',
-    connection: {
-      host : '127.0.0.1',
-      user : 'postgres',
-      password : 'olumide',
-      database : 'postgres'
-    },
+    connection: localConnectionVars,
     pool: {
       min: 2,
       max: 10
