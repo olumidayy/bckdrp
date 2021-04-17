@@ -1,8 +1,6 @@
-const { gql } = require("apollo-server-express");
-const apolloTestClient = require("../utils/apollo-test-client");
-const { destroyClient } = require("../../src/database");
+const { destroyClient, sendQuery } = require("../utils");
 
-const SHORTEN_URL = gql`
+const SHORTEN_URL = `
     query ShortenUrl($url: String!) {
         shortenUrl(url: $url) {
             url
@@ -10,67 +8,61 @@ const SHORTEN_URL = gql`
     }
 `;
 
-const LOGIN = gql`
-    mutation login($email: String!) {
-        login(email: $email) {
-            token
-        }
-    }
-`;
-
-const BOOK_TRIPS = gql`
-    mutation BookTrips($launchIds: [ID]!) {
-        bookTrips(launchIds: $launchIds) {
-            success
-            message
-            launches {
-                id
-                isBooked
-            }
-        }
-    }
-`;
-
-describe("Queries", () => {
-
-	afterAll(async done => {
-		await destroyClient();
+describe("GraphQL Queries", () => {
+    afterAll(async (done) => {
+        await destroyClient();
         done();
     });
 
-    it("shortens a URL", async () => {
+    it("shortens a valid URL", async () => {
         /**
-		 * This test checks to see that the query infacts shortens
-		 * the URL and gives us the shortened version.
-		 */
+         * This test checks to see that the query infacts shortens
+         * the URL and gives us the shortened version.
+         */
 
-        const { query } = apolloTestClient();
-
-        // // use our test server as input to the createTestClient fn
-        // // This will give us an interface, similar to apolloClient.query
-        // // to run queries against our instance of ApolloServer
-		let url = "https://jestjs.io/docs/environment-variables";
-        const res = await query({
+        let url = "https://jestjs.io/docs/environment-variables";
+        const res = await sendQuery({
             query: SHORTEN_URL,
-			variables: { url }
+            variables: { url }
         });
+        expect(res.data.shortenUrl).toBeTruthy();
         expect(res.data.shortenUrl.url).toBeTruthy();
-        expect(res.data.shortenUrl.url == url).toBeFalsy();
+        expect(res.data.shortenUrl.url == url).toBe.false;
     });
 
-    // it('fetches single launch', async () => {
-    //   const {server, launchAPI, userAPI} = constructTestServer({
-    //     context: () => ({user: {id: 1, email: 'a@a.a'}}),
-    //   });
+    it("returns an error for an invalid URL", async () => {
+        /**
+         * This test checks to see that the query infacts shortens
+         * the URL and gives us the shortened version.
+         */
 
-    //   launchAPI.get = jest.fn(() => [mockLaunchResponse]);
-    //   userAPI.store = mockStore;
-    //   userAPI.store.trips.findAll.mockReturnValueOnce([
-    //     {dataValues: {launchId: 1}},
-    //   ]);
+        let url = "https/jestjs.io/docs/environment-variables";
+        const res = await sendQuery({
+            query: SHORTEN_URL,
+            variables: { url }
+        });
+        expect(res.errors).toBeTruthy();
+        expect(res.data.shortenUrl).toBeFalsy();
+    });
 
-    //   const {query} = createTestClient(server);
-    //   const res = await query({query: GET_LAUNCH, variables: {id: 1}});
-    //   expect(res).toMatchSnapshot();
-    // });
+    it("returns the same identifier for two same URLs", async () => {
+        /**
+         * This test checks to see that the query infacts shortens
+         * the URL and gives us the shortened version.
+         */
+
+        let url =
+            "https://www.notion.so/Backdrop-Coding-Challenge-WIP-b77847cfaa644a98812d6a6718324f66";
+        let queryData = {
+            query: SHORTEN_URL,
+            variables: { url },
+        };
+        const res0 = await sendQuery(queryData);
+        const res1 = await sendQuery(queryData);
+        expect(res0.data).toStrictEqual(res1.data);
+        expect(res0.data.shortenUrl).toStrictEqual(res1.data.shortenUrl);
+        expect(res0.data.shortenUrl.url).toBe(res1.data.shortenUrl.url);
+        expect(res0.errors).toBe(res1.errors);
+        expect(res0.errors).toBeFalsy();
+    });
 });

@@ -7,7 +7,7 @@ let handle404 = (req, res, next) => {
 }
 
 let handleErrors = (err, req, res, next) => {
-    res.json({
+    res.status(err.status || 500).json({
         status: "error",
         statusCode: err.status || 500,
         message: err.message,
