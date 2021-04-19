@@ -3,7 +3,6 @@ const express = require("express");
 const cors = require("cors");
 
 const { typeDefs, resolvers, registerApp } = require("./api");
-const { port } = require("./config");
 
 async function configureApp() {
 

@@ -1,4 +1,4 @@
-
+//Middleware to handle 404 errors
 let handle404 = (req, res, next) => {
     const msg = "The requested URL was not found on this server. That’s all we know."
     const err = new Error(msg);
@@ -6,6 +6,7 @@ let handle404 = (req, res, next) => {
     next(err);
 }
 
+//Middleware to handle all other errors
 let handleErrors = (err, req, res, next) => {
     res.status(err.status || 500).json({
         status: "error",

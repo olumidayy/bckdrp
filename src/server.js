@@ -7,7 +7,6 @@ async function startServer() {
     console.log(`
         🚀 Server ready at running on port: ${port}
     `,);
-    return app;
 }
 
 startServer();
