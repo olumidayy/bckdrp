@@ -6,7 +6,7 @@ let ssl = { rejectUnauthorized: false };
 
 module.exports = {
 
-  n: {
+  production: {
     client: 'pg',
     connection: dbConfig,
     pool: {
