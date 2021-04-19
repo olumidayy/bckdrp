@@ -1,44 +1,28 @@
 require("dotenv").config({ path: '../../.env' });
-const { connectionString, env } = require("../config");
-
-let localConnectionVars = {
-  host : '127.0.0.1',
-  user : 'postgres',
-  password : 'olumide',
-  database : 'postgres'
-};
+const { connectionString } = require("../config");
+const parse = require("pg-connection-string").parse;
+let dbConfig = parse(connectionString);
+let ssl = { rejectUnauthorized: false };
 
 module.exports = {
 
+  n: {
+    client: 'pg',
+    connection: dbConfig,
+    pool: {
+      min: 2,
+      max: 10
+    },
+    migrations: {
+      tableName: 'knex_migrations'
+    }
+  },
+
   development: {
     client: 'pg',
-    connection: localConnectionVars,
-    pool: {
-      min: 2,
-      max: 10
-    },
-    migrations: {
-      tableName: 'knex_migrations'
-    }
-  },
-
-  test: {
-    client: 'pg',
-    connection: localConnectionVars,
-    pool: {
-      min: 2,
-      max: 10
-    },
-    migrations: {
-      tableName: 'knex_migrations'
-    }
-  },
-
-  production: {
-    client: 'pg',
     connection: {
-      connectionString,
-      ssl: { rejectUnauthorized: false }
+      ...dbConfig,
+      ssl
     },
     pool: {
       min: 2,
@@ -48,4 +32,9 @@ module.exports = {
       tableName: 'knex_migrations'
     }
   }
-}[env];
+};
+
+console.log({
+  ...dbConfig,
+  ssl
+})
