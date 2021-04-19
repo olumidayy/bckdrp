@@ -1,5 +1,5 @@
 # bckdrp
-### A [GraphQL](https://graphql.org/) API using [Apollo GraphQL](https://www.apollographql.com/) and [Express](https://expressjs.com/)
+#### A [GraphQL](https://graphql.org/) API using [Apollo GraphQL](https://www.apollographql.com/) and [Express](https://expressjs.com/)
 
 # Pre-requisites
 - Install [Node.js](https://nodejs.org/en/) version 8.0.0
